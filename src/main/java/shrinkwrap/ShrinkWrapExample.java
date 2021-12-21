@@ -129,11 +129,11 @@ public class ShrinkWrapExample {
 		return Arrays.stream(coordinates).collect(Collectors.toSet());
 	}
 
-	private Set<ResolutionResult> resolveArtifactsStartingAtPom(String pom) {
+	private Set<ResolutionResult> resolveArtifactsStartingAtPom(String pathToPom) {
 		var res = new HashSet<ResolutionResult>();
 		MavenResolvedArtifactImpl.artifactRepositories = res;
 		Maven.resolver() //
-				.loadPomFromFile(pom) //
+				.loadPomFromFile(pathToPom) //
 				.importCompileAndRuntimeDependencies() //
 				.resolve() //
 				.withTransitivity() //

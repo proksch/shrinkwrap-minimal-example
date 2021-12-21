@@ -34,7 +34,8 @@ public class ResolutionResult {
 		String f = file.toString();
 		String marker = "/.m2/repository/";
 		int idx = f.indexOf(marker);
-		return source + f.substring(idx + marker.length() - 1);
+		int idxOfExt = f.lastIndexOf('.');
+		return source + f.substring(idx + marker.length() - 1, idxOfExt) + ".pom";
 	}
 
 	@Override
