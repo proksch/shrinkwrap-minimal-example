@@ -15,6 +15,7 @@
  */
 package shrinkwrap;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,13 +25,8 @@ import java.util.stream.IntStream;
 
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.impl.maven.MavenResolvedArtifactImpl;
-import org.jboss.shrinkwrap.resolver.impl.maven.ResolutionResult;
 
 public class ShrinkWrapExample {
-
-	private static final String SW_COORD = "org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-depchain:3.1.4:?";
-	private static final String MY_COORD = "test:shrinkwrap";
-//	private static final String MY_COORD = "test:shrinkwrap:0.0.1-SNAPSHOT";
 
 	public void run() {
 
@@ -130,7 +126,7 @@ public class ShrinkWrapExample {
 	}
 
 	private Set<ResolutionResult> resolveArtifactsStartingAtPom(String pathToPom) {
-		var res = new HashSet<ResolutionResult>();
+		var res = new HashSet<String[]>();
 		MavenResolvedArtifactImpl.artifactRepositories = res;
 		Maven.resolver() //
 				.loadPomFromFile(pathToPom) //
@@ -139,6 +135,12 @@ public class ShrinkWrapExample {
 				.withTransitivity() //
 				.asResolvedArtifact();
 		MavenResolvedArtifactImpl.artifactRepositories = null;
-		return res;
+		return toResolutionResult(res);
+	}
+
+	private Set<ResolutionResult> toResolutionResult(HashSet<String[]> res) {
+		return res.stream() //
+				.map(arr -> new ResolutionResult(arr[0], arr[1], new File(arr[2]))) //
+				.collect(Collectors.toSet());
 	}
 }

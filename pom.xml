@@ -20,6 +20,10 @@
 			<id>gitlab-maven</id>
 			<url>https://gitlab.com/api/v4/projects/26117144/packages/maven</url>
 		</repository>
+		<repository>
+			<id>github-shrinkwrap-resolver-patched</id>
+			<url>https://github.com/fasten-project/shrinkwrap-resolver-patched/raw/repository</url>
+		</repository>
 	</repositories>
 
 
@@ -27,15 +31,20 @@
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>
 			<artifactId>shrinkwrap-resolver-depchain</artifactId>
-			<version>${version.shrinkwrap.resolvers}</version>
+			<version>3.1.4</version>
 			<type>pom</type>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.shrinkwrap.resolver</groupId>
+					<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>
-			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<artifactId>shrinkwrap-resolver-impl-maven-patched</artifactId>
 			<version>3.1.4</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -43,7 +52,6 @@
 			<version>1.7.32</version>
 			<scope>runtime</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>remla</groupId>
 			<artifactId>mylib</artifactId>
